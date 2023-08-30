@@ -8,6 +8,7 @@ const authorSchema = new mongoose.Schema({
   },
 });
 
+//TODO: doesnt validate without .remove()
 authorSchema.pre("remove", function (next) {
   Book.find({ author: this.id }, (err, books) => {
     if (err) {

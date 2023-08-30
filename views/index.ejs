@@ -7,6 +7,9 @@
   </head>
   <body>
     <h2 class="page-header">Recently Added</h2>
+    <form method="post" action="/deleting?_method=DELETE">
+      <button type="submit">delete old </button>
+    </form>
     <%- include('partials/bookGrid', { books: books, large: true }) %>
   </body>
 </html>

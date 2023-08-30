@@ -8,6 +8,8 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 const methodOverride = require("method-override");
 
+const Book = require("./models/book");
+
 app.set("view engine", "ejs");
 app.set("views", __dirname + "/views");
 app.set("layout", "layouts/layout");
@@ -30,6 +32,11 @@ mongoose.connect(process.env.DB_URL, {
 mongoose.connection.once("open", () => console.log("Connected to Database"));
 mongoose.connection.on("error", (error) => console.error(error));
 
+app.delete("/deleting", async (req, res) => {
+  await Book.deleteOne({ _id: "64ee4f1fad0f1ba8416d0430" });
+  res.render('/')
+  console.log("sucees");
+});
 app.listen(process.env.PORT || 3000, () => {
   console.log(`Server listening on port ${process.env.PORT || 3000}`);
 });

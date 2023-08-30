@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Author = require("../models/author");
-const Book = require('../models/book')
+const Book = require("../models/book");
 
 //all auhtors
 router.get("/", async (req, res) => {
@@ -49,7 +49,7 @@ router.get("/:id", async (req, res) => {
       author: author,
       booksByAuthor: books,
     });
-  } catch(err) {
+  } catch (err) {
     res.redirect("/");
   }
 });
@@ -58,7 +58,7 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/edit", async (req, res) => {
   try {
     const author = await Author.findById(req.params.id);
-    res.render("authors/edit", { author});
+    res.render("authors/edit", { author });
   } catch {
     res.redirect("/authors");
   }
@@ -87,14 +87,16 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   let author;
   try {
-    author = await Author.findById(req.params.id);
-    await author.remove();
+    author = await Author.findOneAndDelete({ _id: req.params.id });
     res.redirect("/authors");
   } catch {
-    if (author == null) {
-      res.redirect("/");
+    if (author != null) {
+      res.render("authors/show", {
+        author: author,
+        errorMessage: "Could not remove author",
+      });
     } else {
-      res.redirect(`/authors/${author.id}`);
+      res.redirect("/");
     }
   }
 });
